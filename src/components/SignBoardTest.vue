@@ -210,8 +210,22 @@ export default {
       console.log(file)
       const isLt10M = file.size / 1024 / 1024 < 10
       if (!isLt10M) {
-        this.$message.error('上传的签名文件不能大于10M')
-        return false
+        // this.$message.error('上传的签名文件不能大于10M')
+        const command = {
+          "action": "clickSignEx",
+          // "dstPdfFilename": file.name,
+          // "srcPdfBase64": base64,
+          srcPdfUrl: 'E:/workspace/sirius-admin/考试/202206300/demo.pdf',
+          // srcPdfUrl: 'E:\\workspace\\sirius-admin\\考试\\202206300\\2、市局执法办案管理中心建设方案.pdf',
+          // srcPdfUrl: 'https://linkingvision.com/download/documentation/h5stream/H5S视频平台 API 中文手册 r10.pdf',
+          "forceReadAll": this.forceRead,
+          "enableRealityScene": this.modernMode,
+          "timeout": `${this.timeout}S`
+        }
+        this.$refs.ws.setAndSendMessage(JSON.stringify(command))
+        this.$refs.upload.clearFiles()
+        // return false
+        return
       }
       this.pdfFile = file
       if (!this.fileReader) {
